@@ -1,10 +1,164 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eeeeec"><title>Atmos — Fadenraum</title><link rel="icon" href="data:,"><link rel="stylesheet" href="atmos/stil.css"></head><body>
-<header><a class="wordmark" href="#fokus">Fadenraum <i>/ Atmos</i></a><nav aria-label="Main navigation"><a href="#fokus" aria-label="Focus" title="Focus"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></a><a href="#archiv" aria-label="Archive" title="Archive"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5h7l2 2h9v9H3zM3 5h7l2 2"/></svg></a><a href="#fortschritt" aria-label="Progress" title="Progress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h17"/><path d="m7 15 4-4 3 2 5-6"/></svg></a><a href="#einstellungen" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg></a></nav></header>
-<main><section id="fokus"><div class="installation"><div class="art"><canvas id="traces" tabindex="0" aria-label="Drag or use the arrow keys to orbit the field. Use plus and minus to zoom."></canvas></div>
-<div class="intro"><small id="fieldState">Focus</small><h1><span id="identity">Atmos</span><span id="heroClock" hidden aria-hidden="true"></span></h1><div class="chrono" aria-hidden="true"><i id="hand"></i></div><p id="objectCaption" class="quiet-copy" aria-hidden="true">An orbital field study</p></div><div class="orientation" aria-label="View orientation"><span>◉</span><output id="angle">0.0°</output></div><div class="viewControls"><label class="speedLabel" title="Orbit speed">⟳ <input id="speed" aria-label="Orbit speed" type="range" min="0" max="3" step=".25" value="1"><output id="rate">1×</output></label><button id="quality" aria-label="Toggle 4K view" aria-pressed="false" disabled>◧</button><button id="near" aria-label="Zoom in" title="Zoom in">+</button><button id="far" aria-label="Zoom out" title="Zoom out">−</button></div><div id="sessionControls"></div><div id="filmControls" hidden><span id="filmDay">Day 0 / 30</span><button id="filmToggle">Ⅱ</button><button id="filmExit" aria-label="Exit preview">×</button></div></div>
-<div class="desk"><div class="progressline" aria-hidden="true"><i id="elapsed"></i></div><div class="time"><small id="phase">Focus</small><output id="time">25:00</output></div><div class="setup"><label>◉ <select id="project" aria-label="Subject or project"></select></label><label id="goalLabel">◎ <select id="goal" aria-label="Learning goal"></select></label><div class="durations" aria-label="Focus duration"><button data-min="25" aria-label="25 minutes">25</button><button data-min="45" aria-label="45 minutes">45</button><button data-min="60" aria-label="60 minutes">60</button><label class="customTime" title="Custom duration">＋ <span><input type="number" min="1" max="240" step="1" required id="customMinutes" aria-label="Custom focus duration in minutes"> min</span></label></div></div><div class="actions"><button class="solid" id="start" aria-label="Start focus" title="Start focus">▶</button><button id="pause" aria-label="Pause or resume focus" hidden></button><button id="end" aria-label="Finish focus" title="Finish">✓</button><button id="abort" aria-label="Reset focus" title="Reset">↺</button></div></div><p role="status" id="report"></p><details class="fold imprintPlate" id="previewFold" open><summary class="foldHead"><span><small>Field</small><strong>Your traces</strong></span><i aria-hidden="true">⌄</i></summary><div class="foldBody"><p id="imprintHint" class="quiet-copy"></p><div id="imprints"></div><div class="forecast"><div class="forecastControls"><label for="days">Preview</label><output id="horizon" for="days">Today</output><input id="days" type="range" min="0" max="30" step="1" value="0"><div class="milestones"><button data-days="0" aria-label="Today">Now</button><button data-days="7" aria-label="One week">7d</button><button data-days="30" aria-label="One month">30d</button></div><button id="filmPlay" type="button" aria-label="Play 30-day preview">▷</button><button id="collect" type="button" aria-label="Export field as SVG">↓</button><p class="quiet-copy">Modelled with one session each day, one note every two days and one goal every three days.</p><p id="forecastSummary" class="quiet-copy" aria-live="polite"></p></div><figure class="proof"><canvas id="proof" aria-label="Field at the selected point in time"></canvas><figcaption id="proofTitle">Your field today</figcaption></figure></div></div></details></section>
-<section id="archiv" class="page"><details class="fold" id="archiveFold" open><summary class="foldHead sectionhead"><span><small>Collection</small><strong>Archive</strong></span><i aria-hidden="true">⌄</i></summary><div class="foldBody"><div class="collection"><div class="collectionSide"><a class="noteLink" href="notizgewebe.html"><canvas data-study="notes" aria-hidden="true"></canvas><span>Note weave ↗</span></a><form id="addProject"><label>New subject or project<input name="name" required maxlength="100" placeholder="e.g. Materials science"></label><button>Add project</button></form></div><div id="projects"></div></div></div></details></section>
-<section id="fortschritt" class="page"><details class="fold" id="progressFold" open><summary class="foldHead sectionhead"><span><small>Journey</small><strong>Progress</strong></span><i aria-hidden="true">⌄</i></summary><div class="foldBody"><canvas class="orbitStudy" data-study="days" aria-label="Field section from your study days"></canvas><figure class="history"><figcaption>Focus time · last seven days</figcaption><div id="chart"></div></figure><div id="stats"></div></div></details></section>
-<section id="einstellungen" class="page"><details class="fold" id="settingsFold" open><summary class="foldHead sectionhead"><span><small>Personal space</small><strong>Settings</strong></span><i aria-hidden="true">⌄</i></summary><div class="foldBody"><div class="settingsGrid"><section><h3>◐ Look</h3><label class="check"><input type="checkbox" id="quiet"> Motion</label><label class="contrastLabel">Contrast<input id="contrast" type="range" min="80" max="145" value="100"></label></section><section><h3>♫ Sound</h3><canvas class="soundStudy" data-study="sessions" aria-hidden="true"></canvas><p class="quiet-copy">A low drone, soft wind and a quiet pulse. Mix each layer independently.</p><div id="sound"></div></section><section><h3>⌂ Data</h3><p>Stored on this device.</p><button id="backup" aria-label="Export backup" title="Export backup">↓</button><label class="upload">Restore <input type="file" id="restore" accept=".json,application/json"></label><p id="importMsg" role="status"></p></section></div></div></details></section></main>
-<dialog id="renameDialog"><form id="renameForm"><h2 id="renameHeading">Rename</h2><label>Name<input id="renameName" required autocomplete="off"></label><div><button type="button" id="renameCancel">Cancel</button><button class="solid">Save</button></div></form></dialog><dialog id="confirm"><h2 id="question"></h2><p id="explain"></p><div><button id="no">Back</button><button id="yes" class="solid">Confirm</button></div></dialog>
-<footer><i>Fadenraum</i><span id="foot">Personal focus room</span></footer><script type="module" src="atmos/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eeede8">
+  <meta name="description" content="Fadenraum is an independent fashion label exploring thoughtful forms, tactile textiles and everyday ritual.">
+  <title>Fadenraum — Wear your own rhythm</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="brand.css">
+</head>
+<body>
+  <div class="topline">A study in form, feeling and the in-between.</div>
+  <header class="siteHeader">
+    <a class="brand" href="#home" aria-label="Fadenraum home">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 23C9 5 25 4 30 12S24 30 13 27 6 13 16 10s16 7 11 15-15 5-18-1" /></svg>
+      <span>FADENRAUM</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#collection">Collection</a>
+      <a href="#atelier">Atelier</a>
+      <a href="notizgewebe.html">Field notes</a>
+    </nav>
+    <a class="headerLink" href="fokus.html">Enter the focus room <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="heroCopy">
+        <p class="eyebrow"><span>Independent fashion</span><span>Est. in the in-between</span></p>
+        <h1 id="heroTitle">Wear your<br><em>own rhythm.</em></h1>
+        <p class="heroText">Clothing shaped by the quiet architecture of thread: fluid lines, considered layers, space to be.</p>
+        <a class="button buttonDark" href="#collection">Explore the collection <span aria-hidden="true">↘</span></a>
+        <p class="edition">FORM STUDY <span>—</span> CHAPTER 01</p>
+      </div>
+      <div class="heroArtwork">
+        <span class="artIndex">PLATE 01&nbsp; / &nbsp;SOFT STRUCTURE</span>
+        <svg class="heroFigure" viewBox="0 0 620 760" role="img" aria-labelledby="heroArtTitle heroArtDesc">
+          <title id="heroArtTitle">An original study of a sculptural layered garment</title>
+          <desc id="heroArtDesc">A flowing, ink-dark coat form traced with fine copper thread over warm stone.</desc>
+          <defs>
+            <linearGradient id="coat" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#343331"/><stop offset=".52" stop-color="#171817"/><stop offset="1" stop-color="#5a5148"/></linearGradient>
+            <linearGradient id="skin" x1="0" x2="1"><stop stop-color="#c59f82"/><stop offset="1" stop-color="#e0c3a6"/></linearGradient>
+            <pattern id="grain" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M0 3h13M4 0v13" stroke="#fff" stroke-opacity=".14" stroke-width=".45"/></pattern>
+            <clipPath id="coatClip"><path d="M257 222c-50 13-84 39-111 82l-44 157 56 24 47-105-24 256c78 32 186 31 270-3l-43-263 57 112 57-30-56-153c-28-43-65-66-119-78l-47 57z"/></clipPath>
+          </defs>
+          <path d="M91 96c111-75 287-65 395 24s116 263 68 407c-50 153-205 231-349 191C53 676 5 523 29 351 45 235 26 140 91 96Z" fill="#e1ded5"/>
+          <circle cx="451" cy="176" r="79" fill="#c87952" opacity=".8"/>
+          <path d="M47 562c104-49 161-17 248-48s135-100 254-65" fill="none" stroke="#a66c4e" stroke-width="1"/>
+          <path d="M65 588c112-48 160-19 250-53s144-94 243-63" fill="none" stroke="#a66c4e" stroke-opacity=".5" stroke-width="1"/>
+          <path d="M286 148c-2-35 7-70 39-77 37-8 59 20 57 59l-7 59-77 8z" fill="url(#skin)"/>
+          <path d="M274 149c-1-52 28-91 70-89 38 1 61 34 53 89-11-8-20-26-26-43-15 26-51 41-97 43Z" fill="#252624"/>
+          <path d="m295 209-3 42 57 42 55-42-10-49" fill="url(#skin)"/>
+          <path d="M257 222c-50 13-84 39-111 82l-44 157 56 24 47-105-24 256c78 32 186 31 270-3l-43-263 57 112 57-30-56-153c-28-43-65-66-119-78l-47 57z" fill="url(#coat)"/>
+          <g clip-path="url(#coatClip)" fill="none" stroke="#c27b55" stroke-opacity=".76">
+            <path d="M164 314c82 66 138 139 125 346M196 285c72 83 105 170 99 389M231 260c48 97 60 196 49 424M272 237c17 106 18 261 7 458M308 261c-8 114-4 264 25 425M349 248c-27 131-9 287 43 403M389 257c-46 121-30 260 40 370M433 276c-47 92-31 215 26 310"/>
+            <path d="M102 424c110 45 219 39 333-19M91 453c115 44 227 38 366-18M87 483c123 43 247 37 391-20M122 518c114 35 230 27 364-25" stroke-opacity=".34"/>
+            <path d="m306 268 27 444M317 260l28 442" stroke="#efded0" stroke-opacity=".48"/>
+          </g>
+          <path d="m306 268 27 444M257 222l49 46 27-44M257 222l-18 205M388 222l-62 45M178 380l-28 91M444 384l41 82" fill="none" stroke="#dbc4b2" stroke-opacity=".72"/>
+          <circle cx="333" cy="426" r="3" fill="#c87952"/><circle cx="335" cy="459" r="3" fill="#c87952"/><circle cx="337" cy="492" r="3" fill="#c87952"/>
+          <path d="M83 641h68M83 650h39" stroke="#262725" stroke-width="1"/>
+          <text x="83" y="672" fill="#262725" font-family="monospace" font-size="10" letter-spacing="2">A STUDY IN MOVEMENT</text>
+        </svg>
+        <span class="artCaption">Textile, gesture, and the space between.</span>
+      </div>
+      <span class="heroNumber" aria-hidden="true">01<br>04</span>
+    </section>
+
+    <div class="marquee" aria-label="Fadenraum: considered clothes for unhurried lives">
+      <span>THREAD BECOMES FORM</span><i>✳</i><span>FORM BECOMES FEELING</span><i>✳</i><span>MAKE ROOM TO MOVE</span><i>✳</i>
+    </div>
+
+    <section id="collection" class="collection sectionWrap" aria-labelledby="collectionTitle">
+      <div class="sectionIntro">
+        <div><p class="eyebrow">01 / The collection</p><h2 id="collectionTitle">Soft forms.<br><em>Clear intention.</em></h2></div>
+        <p>A considered wardrobe in progress. Three studies in drape, texture and the poetry of getting dressed.</p>
+      </div>
+      <div class="productGrid">
+        <article class="productCard">
+          <button class="productImage imageOne" type="button" data-piece="fold" aria-label="Discover Fold — a study in layered tailoring">
+            <span class="pieceNo">01</span>
+            <svg viewBox="0 0 420 500" aria-hidden="true"><path class="garment garmentDark" d="m150 74 53-18 30 27 36-25 55 21 41 93-47 24-28-56 34 273c-58 20-142 20-207 1l34-276-29 58-48-25z"/><path class="seam" d="m203 56 29 27-8 329m45-333-37 34 33 294m-79-265 54 4 57-32M121 183l74 28m158-33-71 33m-49-136 17 74"/><path class="seamFine" d="M166 168c44 21 82 20 124-2M158 196c51 23 99 21 144-3M153 224c53 22 107 20 152-4M149 253c58 22 113 18 161-6"/></svg>
+            <span class="imageLabel">STUDY IN / LAYER</span>
+          </button>
+          <div class="productMeta"><div><p class="eyebrow">The outer layer</p><h3>Fold</h3></div><span>01 — 03</span></div>
+          <p class="productDescription">A silhouette gathered from lines that refuse to stay still.</p>
+        </article>
+        <article class="productCard">
+          <button class="productImage imageTwo" type="button" data-piece="drift" aria-label="Discover Drift — a study in fluid knit">
+            <span class="pieceNo">02</span>
+            <svg viewBox="0 0 420 500" aria-hidden="true"><path class="garment garmentRust" d="m156 82 55-24 29 28 31-28 53 24 39 92-49 22-26-52 33 290c-61 16-137 16-199-1l38-288-28 51-47-24z"/><path class="seam" d="m211 58 29 28-9 342m40-346-31 31 31 313m-81-280c33 16 68 16 101-3m-110 30c37 15 77 15 115-4m-123 33c40 15 83 14 122-5m-130 34c44 14 88 12 128-7m-135 35c46 12 92 11 138-9m-141 37c48 11 94 9 141-10"/></svg>
+            <span class="imageLabel">STUDY IN / FLOW</span>
+          </button>
+          <div class="productMeta"><div><p class="eyebrow">The moving layer</p><h3>Drift</h3></div><span>02 — 03</span></div>
+          <p class="productDescription">Soft geometry, following the body rather than defining it.</p>
+        </article>
+        <article class="productCard">
+          <button class="productImage imageThree" type="button" data-piece="trace" aria-label="Discover Trace — a study in threaded detail">
+            <span class="pieceNo">03</span>
+            <svg viewBox="0 0 420 500" aria-hidden="true"><path class="garment garmentStone" d="m157 81 53-23 29 28 33-27 52 24 39 91-50 24-28-54 32 290c-57 18-134 18-198 0l38-289-28 52-48-25z"/><path class="seam" d="m210 58 29 28-9 342m42-345-33 32 31 309m-90-280 30 4 42-38m31 1 29 16-47 19M152 223c45 13 99 11 147-10m-155 38c50 14 105 11 160-10m-164 39c54 13 109 10 167-12m-171 41c55 12 114 8 174-14"/><path class="seamFine" d="M137 197c26 12 34 31 20 57m-25 0c31 14 39 36 23 66m202-133c-29 13-39 33-23 60m29 0c-32 14-42 37-25 68"/></svg>
+            <span class="imageLabel">STUDY IN / DETAIL</span>
+          </button>
+          <div class="productMeta"><div><p class="eyebrow">The finishing layer</p><h3>Trace</h3></div><span>03 — 03</span></div>
+          <p class="productDescription">A quiet line of contrast, made to be found up close.</p>
+        </article>
+      </div>
+      <p class="collectionNote"><span>FORM STUDY 01</span><span>Concept pieces — a first expression of the Fadenraum language.</span></p>
+    </section>
+
+    <section class="manifesto" aria-labelledby="manifestoTitle">
+      <p class="eyebrow">A note on how we dress</p>
+      <h2 id="manifestoTitle">Less noise.<br><em>More texture.</em></h2>
+      <p>Fadenraum begins with a simple thought: what we wear can make space, not take it. We follow a thread from first sketch to final silhouette, looking for pieces that feel expressive and easy to live in.</p>
+      <span class="manifestoSeal">F<br><i>R</i></span>
+      <span class="manifestoFoot">AN OPEN THREAD<br>EST. MMXXIV</span>
+    </section>
+
+    <section id="atelier" class="atelier sectionWrap" aria-labelledby="atelierTitle">
+      <div class="atelierVisual" aria-hidden="true">
+        <svg viewBox="0 0 660 570">
+          <rect width="660" height="570" fill="#dcd9d1"/>
+          <path d="M-50 432C96 311 101 114 246 39s300 3 465-130M-35 466C112 346 131 149 265 79s278 7 451-119M-21 501C124 381 159 190 286 119S553 124 735 1M-4 536C137 418 184 232 309 160s250 18 428-97M12 571C150 455 210 274 333 202s221 31 397-78M31 604C166 492 237 317 359 244s192 42 367-59" fill="none" stroke="#272824" stroke-width="1"/>
+          <path d="M101 530C209 422 221 190 367 82s231 13 326-54M132 551C234 435 251 210 390 106s210 10 301-59M167 566C264 454 282 235 414 130s188 4 275-64" fill="none" stroke="#a76546" stroke-width="1.2"/>
+          <circle cx="330" cy="283" r="92" fill="none" stroke="#a76546" stroke-opacity=".48"/>
+          <circle cx="330" cy="283" r="115" fill="none" stroke="#a76546" stroke-opacity=".24"/>
+          <circle cx="330" cy="283" r="3" fill="#a76546"/>
+          <text x="42" y="520" font-family="monospace" font-size="10" letter-spacing="2" fill="#292a26">THREAD STUDY / 001</text>
+        </svg>
+        <span class="atelierStamp">MATERIAL<br>IN MOTION</span>
+      </div>
+      <div class="atelierCopy">
+        <p class="eyebrow">02 / Inside the atelier</p>
+        <h2 id="atelierTitle">The beauty<br>of <em>becoming.</em></h2>
+        <p>We look at fabric the way a drawing looks at a blank page: for possibility. A line becomes a seam. A seam creates a fold. A fold gives the body somewhere new to go.</p>
+        <p>Fadenraum is an independent fashion concept exploring those small transformations — one study, one thread, one thoughtful layer at a time.</p>
+        <a class="textLink" href="notizgewebe.html">Read the field notes <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="closing">
+      <p class="eyebrow">A space to return to yourself</p>
+      <h2>Make room<br><em>for what matters.</em></h2>
+      <a class="button buttonLight" href="fokus.html">Visit the focus room <span aria-hidden="true">↗</span></a>
+      <svg class="closingThread" viewBox="0 0 720 240" aria-hidden="true"><path d="M-15 180C82 87 108 235 204 151S321 32 391 108s82 104 153 38S651 48 735 107M-16 195C85 100 113 250 210 166S324 47 394 123s85 101 156 37S655 63 738 122M-18 211C87 115 119 267 216 181S328 62 398 138s87 100 160 35S659 79 741 138" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+    </section>
+  </main>
+  <footer class="siteFooter">
+    <a class="brand" href="#home"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 23C9 5 25 4 30 12S24 30 13 27 6 13 16 10s16 7 11 15-15 5-18-1" /></svg><span>FADENRAUM</span></a>
+    <p>THREAD / FORM / FEEL</p>
+    <a href="notizgewebe.html">The private note weave <span aria-hidden="true">↗</span></a>
+    <small>© FADENRAUM · AN INDEPENDENT FASHION CONCEPT</small>
+  </footer>
+
+  <dialog class="pieceDialog" id="pieceDialog" aria-labelledby="pieceTitle">
+    <button class="dialogClose" type="button" aria-label="Close piece details">×</button>
+    <p class="eyebrow" id="pieceNumber">FORM STUDY / 01</p>
+    <h2 id="pieceTitle">Fold</h2>
+    <p id="pieceText"></p>
+    <p class="dialogNote">A concept piece from the Fadenraum form study. This page is an editorial preview, not a shop.</p>
+  </dialog>
+  <script type="module" src="brand.js"></script>
+</body>
+</html>
